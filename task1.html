@@ -46,9 +46,79 @@ analogWrite(FORWARD, Forward_Speed); // Робот пошел  вперед<br>
 analogWrite(BACK, 0);<br>
 delay(  TIME); // и немного подождать<br>
   }<br>
-}</td></tr>
+</td></tr>
     <tr><td colspan="2"><h3>Источники информации</h3>
     <p>https://3d-diy.ru/wiki/arduino-moduli/drajver-dvigatelya-l9110s/</p></td></tr>
+</table>
+<br>
+<table border="2">
+    <tr><td colspan="2"><h1>Датчик сердцебиения KY-039</h1></td></tr>
+    <tr><td><img width="250px" src="img/ky-039.jpg"></td><td><h3>Схема подключения</h3><img width="250px" src="img/ky-039-uno.jpg"></td></tr>
+    <tr><td width="600px" colspan="2"><p>Датчик Arduino KY-039 служит для измерения пульса (сердцебиения) на пальце. Данный сенсор реагирует 
+	на изменение прозрачности пальца для инфракрасного излучения от светодиода при колебаниях кровяного давления.</p></td></tr>
+    <tr><td colspan="2"><h2>Код программы</h2>
+double alpha = 0.75;<br>
+int period = 100;<br>
+double change = 0.0;<br>
+double minval = 0.0;<br>
+
+void setup() {<br>
+    Serial.begin(9600);<br>
+    pinMode(A1, INPUT);<br>
+}<br>
+
+void loop() {<br>
+     static double oldValue = 0;<br>
+     static double oldChange = 0;<br>
+     int rawValue = analogRead(A1);<br>
+     double value = alpha * oldValue + (1 - alpha) * rawValue;<br>
+     Serial.print (rawValue);<br>
+     Serial.print (",");<br>
+     Serial.println (value);<br>
+     oldValue = value;<br>
+     delay(period);<br>
+}<br>
+</td></tr>
+    <tr><td colspan="2"><h3>Источники информации</h3>
+    <p>https://роботехника18.рф/ky-039-arduino/</p></td></tr>
+</table>
+<br>
+<table border="2">
+    <tr><td colspan="2"><h1>KY-032 модуль с инфракрасным датчиком обнаружения препятствий</h1></td></tr>
+    <tr><td><img width="250px" src="img/KY-032.jpg"></td><td><h3>Схема подключения</h3><img width="250px" src="img/avoid-podkluchenie.jpg"></td></tr>
+    <tr><td width="600px" colspan="2"><p>"KY-032" – модуль представляет собой инфракрасный датчик  обнаружения препятствий. Устройство имеет 
+	передатчик (IR LED), излучающий инфракрасный луч частотой 38 кГц, который принимается приемником (IR receiver) на плате. При приближении 
+	какого-либо предмета к сенсору (близость регулируется потенциометром) на выходе "OUT" появляется низкий уровень напряжения и включается 
+	светодиод на плате модуля.</p></td></tr>
+    <tr><td colspan="2"><h2>Код программы</h2>
+#define  avoidPin  A1 // задаем имя для порта с датчиком<br>
+#define  ledPin  13     // задаем имя для порта со светодиодом<br>
+
+int  avoid;<br>
+
+void setup() {<br>
+   Serial.begin(9600);  // инициализация монитора порта<br>
+
+   pinMode(avoidPin, INPUT);<br>
+   pinMode(ledPin, OUTPUT);<br>
+}<br>
+
+void loop() {<br>
+
+   avoid = digitalRead(avoidPin);  // получаем данные с датчика препятствий<br>
+
+   Serial.print("Avoid Sensor - ");  // выводим данные с датчика на монитор<br>
+   Serial.println(avoid);<br>
+
+   if (avoid == HIGH)<br>
+      digitalWrite(ledPin, HIGH);<br>
+   else<br>
+      digitalWrite(ledPin, LOW);<br>
+}<br>
+</td></tr>
+    <tr><td colspan="2"><h3>Источники информации</h3>
+    <p>https://роботехника18.рф/датчик-препятствия-ардуино/ <br>
+	https://umnyjdomik.ru/ky-032-modul-s-infrakrasnym-datchikom-obnaruzheniya-prepyatstvij-dlya-arduino.html </p></td></tr>
 </table>
 </body>
 </html>
