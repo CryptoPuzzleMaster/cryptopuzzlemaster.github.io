@@ -28,6 +28,10 @@ function delit(){
 	peremennaja2=parseFloat(document.anketa.dva.value);
 	rezultat=peremennaja1/peremennaja2;
 	document.anketa.otvet.value=rezultat;
+	if(rezultat === Infinity)
+	{
+	alert("Делить на ноль нельзя");
+	}
 }
 function pow(){
 	peremennaja1=parseFloat(document.anketa.odin.value);
